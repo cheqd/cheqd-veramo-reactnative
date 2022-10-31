@@ -10,6 +10,31 @@
 
 The purpose of this service is to provide a testing package for a veramo react native application with cheqd
 
+## 🧑‍💻🛠 Developer Guide
+This application was built using the veramo's official [react native documentation](https://veramo.io/docs/react_native_tutorials/react_native_setup_identifiers)
+
+### Setup
+
+Setup react-native environment following the official [documentation](https://reactnative.dev/docs/environment-setup)
+
+Install dependencies
+
+```bash
+yarn install
+```
+
+Start the metro server
+
+```bash
+npx react-native start
+```
+
+Run an android application
+
+```bash
+npx react-native run-android
+```
+
 ## 💬 Community
 
 The [**cheqd Community Slack**](http://cheqd.link/join-cheqd-slack) is our primary chat channel for the open-source community, software developers, and node operators.
