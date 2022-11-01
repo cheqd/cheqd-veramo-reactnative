@@ -4,65 +4,48 @@ import { createAgent, IDIDManager, IResolver, IDataStore, IKeyManager } from '@v
 // Core identity manager plugin
 import { AbstractIdentifierProvider, DIDManager, MemoryDIDStore } from '@veramo/did-manager'
 
-// identity provider
-import { EthrDIDProvider } from '@veramo/did-provider-ethr'
-
 // Core key manager plugin
-import { KeyManager } from '@veramo/key-manager'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '@veramo/key-manager'
 
 // Custom key management system for RN
-import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
+import { KeyManagementSystem } from '@veramo/kms-local'
 
-// Custom resolver
 // Custom resolvers
 import { DIDResolverPlugin } from '@veramo/did-resolver'
-import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { Resolver, ResolverRegistry } from 'did-resolver'
 
-// Storage plugin using TypeOrm
-import { Entities, KeyStore, DIDStore, IDataStoreORM, migrations, PrivateKeyStore } from '@veramo/data-store'
+// identity provider
+import { CheqdDIDProvider, getResolver as CheqdDidResolver } from '@cheqd/did-provider-cheqd'
+import { NetworkType } from '@cheqd/did-provider-cheqd/build/did-manager/cheqd-did-provider'
 
-// TypeORM is installed with '@veramo/data-store'
-import { DataSource } from 'typeorm'
-
-const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
-
-// Create react native db connection
-const dbConnection = new DataSource({
-    type: 'react-native',
-    database: 'veramo.sqlite',
-    location: 'default',
-    migrations: migrations,
-    migrationsRun: true,
-    logging: ['error', 'info', 'warn'],
-    entities: Entities,
-})
-
-export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataStoreORM & IResolver>({
+export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IResolver>({
     plugins: [
       new KeyManager({
-        store: new KeyStore(dbConnection),
+        store: new MemoryKeyStore(),
         kms: {
-          local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(dbEncryptionKey))),
-        },
+          local: new KeyManagementSystem(
+            new MemoryPrivateKeyStore()
+          )
+        }
       }),
       new DIDManager({
-        store: new DIDStore(dbConnection),
-        defaultProvider: 'did:ethr:rinkeby',
+        store: new MemoryDIDStore(),
+        defaultProvider: 'did:cheqd:testnet',
         providers: {
-          'did:ethr:rinkeby': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 'rinkeby',
-            rpcUrl: 'https://rinkeby.infura.io/v3/bc40d5ad97454765ad545a0d6e06461a',
-            gas: 1000001,
-            ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-        },
+          providerPrefix: new CheqdDIDProvider(
+            {
+              defaultKms: 'local',
+              cosmosPayerMnemonic: process.env.REACT_APP_COSMOS_PAYER_MNEMONIC,
+              networkType: NetworkType.Testnet,
+              rpcUrl: process.env.REACT_APP_NETWORK_RPC_URL,
+            }
+          ) as AbstractIdentifierProvider
+        }
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId: 'bc40d5ad97454765ad545a0d6e06461a' }),
-        }),
-      }),
+          ...CheqdDidResolver() as ResolverRegistry
+        })
+      })
     ],
   })
