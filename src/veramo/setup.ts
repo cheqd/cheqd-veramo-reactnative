@@ -1,5 +1,5 @@
 // Core interfaces
-import { createAgent, IDIDManager, IResolver, IDataStore, IKeyManager } from '@veramo/core'
+import { createAgent, IDIDManager, IResolver, IDataStore, IKeyManager, ICredentialIssuer } from '@veramo/core'
 
 // Core identity manager plugin
 import { AbstractIdentifierProvider, DIDManager, MemoryDIDStore } from '@veramo/did-manager'
@@ -17,8 +17,10 @@ import { Resolver, ResolverRegistry } from 'did-resolver'
 // identity provider
 import { CheqdDIDProvider, getResolver as CheqdDidResolver } from '@cheqd/did-provider-cheqd'
 import { NetworkType } from '@cheqd/did-provider-cheqd/build/did-manager/cheqd-did-provider'
-
-export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IResolver>({
+import { CredentialIssuerLD, ICredentialIssuerLD, LdDefaultContexts, VeramoEd25519Signature2020 } from '@veramo/credential-ld'
+import { CredentialPlugin } from '@veramo/credential-w3c'
+const providerPrefix = 'did:cheqd:testnet'
+export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IResolver & ICredentialIssuerLD & ICredentialIssuer>({
     plugins: [
       new KeyManager({
         store: new MemoryKeyStore(),
@@ -30,14 +32,14 @@ export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IResol
       }),
       new DIDManager({
         store: new MemoryDIDStore(),
-        defaultProvider: 'did:cheqd:testnet',
+        defaultProvider: providerPrefix,
         providers: {
-          providerPrefix: new CheqdDIDProvider(
+          'did:cheqd:testnet': new CheqdDIDProvider(
             {
               defaultKms: 'local',
-              cosmosPayerMnemonic: process.env.REACT_APP_COSMOS_PAYER_MNEMONIC,
+              cosmosPayerMnemonic: 'sketch mountain erode window enact net enrich smoke claim kangaroo another visual write meat latin bacon pulp similar forum guilt father state erase bright',
               networkType: NetworkType.Testnet,
-              rpcUrl: process.env.REACT_APP_NETWORK_RPC_URL,
+              rpcUrl: 'https://rpc.cheqd.network',
             }
           ) as AbstractIdentifierProvider
         }
@@ -46,6 +48,11 @@ export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IResol
         resolver: new Resolver({
           ...CheqdDidResolver() as ResolverRegistry
         })
+      }),
+      new CredentialPlugin(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts],
+        suites: [new VeramoEd25519Signature2020()]
       })
     ],
   })

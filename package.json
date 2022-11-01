@@ -8,10 +8,12 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "rn-nodeify --install assert,buffer,process,crypto,stream,vm --hack"
+    "postinstall": "rn-nodeify --install assert,buffer,process,crypto,stream,vm --hack",
+    "watch-need-help": "echo 256 | sudo tee -a /proc/sys/fs/inotify/max_user_instances && echo 32768 | sudo tee -a /proc/sys/fs/inotify/max_queued_events && echo 65536 | sudo tee -a /proc/sys/fs/inotify/max_user_watches && watchman shutdown-server"
   },
   "dependencies": {
     "@cheqd/did-provider-cheqd": "^1.7.15",
+    "@cheqd/sdk": "1.4.0-develop.2",
     "@ethersproject/shims": "^5.7.0",
     "@veramo/core": "^4.0.0",
     "@veramo/credential-ld": "npm:@daevm/veramo-credential-ld@4.0.0",
@@ -24,6 +26,7 @@
     "@veramo/utils": "npm:@daevm/veramo-utils@4.0.0",
     "assert": "^1.5.0",
     "buffer": "^4.9.2",
+    "expo-modules-core": "^0.11.8",
     "process": "^0.11.10",
     "react": "18.1.0",
     "react-native": "0.70.4",

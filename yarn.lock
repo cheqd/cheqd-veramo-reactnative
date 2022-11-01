@@ -1126,6 +1126,25 @@
     "multiformats" "^9.9.0"
     "uuid" "^9.0.0"
 
+"@cheqd/sdk@1.4.0-develop.2":
+  "integrity" "sha512-g22JwWDkD7dtctuHa21iOGhdvUBCZSY4gzPPtTh4o7c9w/BkbFlx0ydFsleW7KA9rNP5jOp+Fzo243PocS8H5g=="
+  "resolved" "https://registry.npmjs.org/@cheqd/sdk/-/sdk-1.4.0-develop.2.tgz"
+  "version" "1.4.0-develop.2"
+  dependencies:
+    "@cheqd/ts-proto" "^1.0.14"
+    "@cosmjs/amino" "^0.29.3"
+    "@cosmjs/encoding" "^0.29.3"
+    "@cosmjs/math" "^0.29.3"
+    "@cosmjs/proto-signing" "^0.29.3"
+    "@cosmjs/stargate" "^0.29.3"
+    "@cosmjs/tendermint-rpc" "^0.29.3"
+    "@cosmjs/utils" "^0.29.3"
+    "@stablelib/ed25519" "^1.0.3"
+    "cosmjs-types" "^0.5.2"
+    "did-jwt" "^6.9.0"
+    "multiformats" "^9.9.0"
+    "uuid" "^9.0.0"
+
 "@cheqd/ts-proto@^1.0.14":
   "integrity" "sha512-BrAtsC/bqBNQlVzGlxdPp7tFyqkYj3JWaZ1b+YcmG6HBUGf2PW2Tq9LX3XCbgut8mQrzBGNh2KET6s7Pvz8Kyw=="
   "resolved" "https://registry.npmjs.org/@cheqd/ts-proto/-/ts-proto-1.0.14.tgz"
@@ -5984,7 +6003,7 @@
     "find-up" "^5.0.0"
     "fs-extra" "^9.1.0"
 
-"expo-modules-core@0.11.8":
+"expo-modules-core@^0.11.8", "expo-modules-core@0.11.8":
   "integrity" "sha512-goC2ghZFVaV6nXEbk+kz9oKnQmqW8fHVUCSPxC0QXhV0ay1dA9Ki6qqMPagkBJUPAz89NsNqW3bYR6DFXq7lvA=="
   "resolved" "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-0.11.8.tgz"
   "version" "0.11.8"
