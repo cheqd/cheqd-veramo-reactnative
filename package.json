@@ -23,7 +23,7 @@
     "@veramo/kms-local": "^4.0.2",
     "@veramo/utils": "npm:@daevm/veramo-utils@4.0.0",
     "assert": "^1.5.0",
-    "buffer": "^4.9.2",
+    "buffer": "^6.0.3",
     "process": "^0.11.10",
     "react": "18.1.0",
     "react-native": "0.70.4",
