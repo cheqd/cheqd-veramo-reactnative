@@ -20,7 +20,7 @@
     "@veramo/did-manager": "^4.0.0",
     "@veramo/did-provider-ethr": "^4.0.0",
     "@veramo/key-manager": "^4.0.2",
-    "@veramo/kms-local": "^4.0.2",
+    "@veramo/kms-local": "^4.2.0",
     "@veramo/utils": "npm:@daevm/veramo-utils@4.0.0",
     "assert": "^1.5.0",
     "buffer": "^4.9.2",
